@@ -14,7 +14,7 @@
     "@types/react-dom": "^0.14.21",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
-    "slick": "../slick",
+    "slick": "github:slickjs/slick",
     "eventsjs": "github:kildevaeld/eventsjs",
     "tslib": "^1.5.0"
   },
