@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reflect-metadata/0.1.9/Reflect.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/15.4.2/react-dom.js"></script>
+    <script src="../node_modules/eventsjs/dist/events.js"></script>
+    <script src="../../slick/dist/slick.js"></script>
+    <script src="../dist/slick-react.js" rel="stylesheet"></script>
+</head>
+
+<body>
+    <div id="app"></div>
+    <script>
+        var e = slick.react.createElement;
+
+        class Template extends slick.react.Component {
+            constructor(props) {
+                super(props);
+                this.state = props;
+            }
+
+            render() {
+                return e('div', null, e(slick.react.Controller, null))
+            }
+
+        }
+
+        class App {
+            constructor() {
+                slick.bindable(this, 'name');
+                slick.bindable(this, 'controller');
+                this.name = "Hello"
+                this.onClick = this.onClick.bind(this);
+                setTimeout(() => this.controller = 'HomeController', 2000)
+            }
+
+            render(props, context) {
+
+                return e('div', null, e('h1', null, this.name), e('button', {
+                    onClick: this.onClick
+                }, "click"), e(slick.react.Controller, {
+                    name: 'HomeController'
+                }, null))
+            }
+
+            /*template() {
+                return Template;
+            }*/
+
+            onClick() {
+                this.name = "Ra rap"
+                console.log('click');
+            }
+        }
+
+        class HomeController {
+            render () {
+                return e('h1', null, "Controller of the year")
+            }
+        }
+
+
+        slick.renderer(slick.react.ReactRenderer)
+        slick.module(App)
+            .controller(HomeController)
+            .create({
+                el: document.querySelector('#app')
+            })
+            .catch(e => {
+                console.log(e.error)
+            })
+    </script>
+</body>
+
+</html>

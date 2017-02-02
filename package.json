@@ -1,0 +1,35 @@
+{
+  "name": "slick-react",
+  "version": "0.0.1",
+  "description": "",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "typings": "lib/index.d.ts",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/react": "^15.0.4",
+    "@types/react-dom": "^0.14.21",
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2",
+    "slick": "../slick",
+    "eventsjs": "github:kildevaeld/eventsjs",
+    "tslib": "^1.5.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.22.1",
+    "babel-loader": "^6.2.10",
+    "babel-preset-es2015": "^6.22.0",
+    "gulp": "^3.9.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-typescript": "^3.1.4",
+    "gulp-uglify": "^2.0.1",
+    "merge2": "^1.0.3",
+    "ts-loader": "^2.0.0",
+    
+    "typescript": "^2.1.5",
+    "webpack-stream": "^3.2.0"
+  }
+}
