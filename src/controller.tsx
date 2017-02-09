@@ -1,8 +1,11 @@
 import * as React from 'react';
 import {Container, Renderer, MetaKeys} from 'slick'
 
+export interface ControllerProperties {
+    name:string;
+}
 
-export class Controller extends React.Component<any,any> {
+export class Controller extends React.Component<ControllerProperties,any> {
     mount:  Element
     renderer: Renderer;
     controller: any;

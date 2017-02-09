@@ -1,7 +1,10 @@
 /// <reference types="react" />
 import * as React from 'react';
 import { Renderer } from 'slick';
-export declare class Controller extends React.Component<any, any> {
+export interface ControllerProperties {
+    name: string;
+}
+export declare class Controller extends React.Component<ControllerProperties, any> {
     mount: Element;
     renderer: Renderer;
     controller: any;
