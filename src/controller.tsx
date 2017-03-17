@@ -1,8 +1,9 @@
 import * as React from 'react';
-import {Container, Renderer, MetaKeys} from 'slick'
+import {Container, Renderer, MetaKeys, isDroppable} from 'slick'
 
 export interface ControllerProperties {
     name:string;
+    options?: any;
 }
 
 export class Controller extends React.Component<ControllerProperties,any> {
@@ -28,7 +29,8 @@ export class Controller extends React.Component<ControllerProperties,any> {
         let factory = this.context.container.get(name)
         
         factory.create({
-            el: this.mount
+            el: this.mount,
+            options: this.props.options
         }).then( mod => {
             this.controller = mod;
             this.renderer = factory.container.get(MetaKeys.renderer);
@@ -36,7 +38,10 @@ export class Controller extends React.Component<ControllerProperties,any> {
     }
 
     componentWillUnmount() {
-
+        if (isDroppable(this.controller)) {
+            this.controller.drop();
+        }
+        this.controller = null;
     }
 
     render() {

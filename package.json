@@ -1,6 +1,6 @@
 {
   "name": "slick-react",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "main": "lib/index.js",
   "scripts": {
@@ -15,20 +15,20 @@
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "slick": "github:slickjs/slick",
-    "eventsjs": "github:kildevaeld/eventsjs",
-    "tslib": "^1.5.0"
+    "eventsjs": "github:kildevaeld/eventsjs"
   },
   "devDependencies": {
+    "tslib": "^1.5.0",
     "babel-core": "^6.22.1",
     "babel-loader": "^6.2.10",
     "babel-preset-es2015": "^6.22.0",
     "gulp": "^3.9.1",
+    "gulp-bump": "^2.7.0",
     "gulp-rename": "^1.2.2",
     "gulp-typescript": "^3.1.4",
     "gulp-uglify": "^2.0.1",
     "merge2": "^1.0.3",
     "ts-loader": "^2.0.0",
-    
     "typescript": "^2.1.5",
     "webpack-stream": "^3.2.0"
   }

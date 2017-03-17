@@ -3,7 +3,8 @@ const gulp = require('gulp'),
     uglify = require('gulp-uglify'),
     rename = require('gulp-rename'),
     tsc = require('gulp-typescript'),
-    merge = require('merge2');
+    merge = require('merge2'),
+    bump = require('gulp-bump');
 
 
 gulp.task('typescript', () => {
@@ -78,6 +79,12 @@ gulp.task('uglify', ['webpack'], () => {
 
 gulp.task('watch', () => {
     gulp.watch('src/**/*.{ts,tsx}', ['webpack']);
+});
+
+gulp.task('bump', () => {
+    return gulp.src('package.json')
+    .pipe(bump())
+    .pipe(gulp.dest('.'))
 });
 
 

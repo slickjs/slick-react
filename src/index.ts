@@ -31,7 +31,7 @@ class Render extends Component<any, any> {
     }
 
     render() {
-        return this.props.mod.render()
+        return this.props.mod.render(this.props.options)
     }
 
     componentWilUnmount() {
@@ -39,7 +39,7 @@ class Render extends Component<any, any> {
     }
 
     static childContextTypes = {
-        container: PropTypes.any
+        container: PropTypes.instanceOf(Container)
     }
 }
 
@@ -51,7 +51,7 @@ export class ReactRenderer extends EventEmitter implements Renderer {
         super();
     }
 
-    render(mod: any, container: Container) {
+    render(mod: any, container: Container, options?: any) {
 
         if (this.model) {
             this.stopListening(this.model);
@@ -63,7 +63,13 @@ export class ReactRenderer extends EventEmitter implements Renderer {
             return this._renderTemplate(mod);
         }
 
-        ReactDom.render(createElement(Render, { container: container, mod: mod }), this.el)
+        if (typeof mod.render !== 'function') {
+            throw new TypeError('the controller needs a render method');
+
+        }
+
+
+        ReactDom.render(createElement(Render, { container: container, mod: mod, options: options }), this.el)
     }
 
     private _renderTemplate(mod: any) {

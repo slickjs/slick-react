@@ -3,6 +3,7 @@ import * as React from 'react';
 import { Renderer } from 'slick';
 export interface ControllerProperties {
     name: string;
+    options?: any;
 }
 export declare class Controller extends React.Component<ControllerProperties, any> {
     mount: Element;
@@ -12,7 +13,7 @@ export declare class Controller extends React.Component<ControllerProperties, an
     shouldComponentUpdate(nextProps: any): boolean;
     mountController(el: Element): void;
     componentWillUnmount(): void;
-    render(): JSX.JSXElement;
+    render(): JSX.Element;
     static contextTypes: {
         container: React.Requireable<any>;
     };

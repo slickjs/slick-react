@@ -64,6 +64,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+	Object.defineProperty(exports, "__esModule", { value: true });
 	var tslib_1 = __webpack_require__(1);
 	var slick_1 = __webpack_require__(2);
 	var react_1 = __webpack_require__(3);
@@ -106,7 +107,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }, {
 	        key: "render",
 	        value: function render() {
-	            return this.props.mod.render();
+	            return this.props.mod.render(this.props.options);
 	        }
 	    }, {
 	        key: "componentWilUnmount",
@@ -119,7 +120,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}(react_1.Component);
 
 	Render.childContextTypes = {
-	    container: react_1.PropTypes.any
+	    container: react_1.PropTypes.instanceOf(slick_1.Container)
 	};
 	var ReactRenderer = function (_eventsjs_1$EventEmit) {
 	    _inherits(ReactRenderer, _eventsjs_1$EventEmit);
@@ -135,7 +136,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    _createClass(ReactRenderer, [{
 	        key: "render",
-	        value: function render(mod, container) {
+	        value: function render(mod, container, options) {
 	            if (this.model) {
 	                this.stopListening(this.model);
 	            }
@@ -143,7 +144,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	            if (typeof mod.template === 'function') {
 	                return this._renderTemplate(mod);
 	            }
-	            ReactDom.render(react_1.createElement(Render, { container: container, mod: mod }), this.el);
+	            if (typeof mod.render !== 'function') {
+	                throw new TypeError('the controller needs a render method');
+	            }
+	            ReactDom.render(react_1.createElement(Render, { container: container, mod: mod, options: options }), this.el);
 	        }
 	    }, {
 	        key: "_renderTemplate",
@@ -199,6 +203,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	var __metadata;
 	var __awaiter;
 	var __generator;
+	var __exportStar;
+	var __values;
+	var __read;
+	var __spread;
+	var __asyncGenerator;
+	var __asyncDelegator;
+	var __asyncValues;
 	(function (factory) {
 	    var root = (typeof global === "undefined" ? "undefined" : _typeof(global)) === "object" ? global : (typeof self === "undefined" ? "undefined" : _typeof(self)) === "object" ? self : _typeof(this) === "object" ? this : {};
 	    if (true) {
@@ -301,8 +312,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }, trys: [], ops: [] },
 	            f,
 	            y,
-	            t;
-	        return { next: verb(0), "throw": verb(1), "return": verb(2) };
+	            t,
+	            g;
+	        return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function () {
+	            return this;
+	        }), g;
 	        function verb(n) {
 	            return function (v) {
 	                return step([n, v]);
@@ -349,6 +363,118 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	    };
 
+	    __exportStar = function __exportStar(m, exports) {
+	        for (var p in m) {
+	            if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+	        }
+	    };
+
+	    __values = function __values(o) {
+	        var m = typeof Symbol === "function" && o[Symbol.iterator],
+	            i = 0;
+	        if (m) return m.call(o);
+	        return {
+	            next: function next() {
+	                if (o && i >= o.length) o = void 0;
+	                return { value: o && o[i++], done: !o };
+	            }
+	        };
+	    };
+
+	    __read = function __read(o, n) {
+	        var m = typeof Symbol === "function" && o[Symbol.iterator];
+	        if (!m) return o;
+	        var i = m.call(o),
+	            r,
+	            ar = [],
+	            e;
+	        try {
+	            while ((n === void 0 || n-- > 0) && !(r = i.next()).done) {
+	                ar.push(r.value);
+	            }
+	        } catch (error) {
+	            e = { error: error };
+	        } finally {
+	            try {
+	                if (r && !r.done && (m = i["return"])) m.call(i);
+	            } finally {
+	                if (e) throw e.error;
+	            }
+	        }
+	        return ar;
+	    };
+
+	    __spread = function __spread() {
+	        for (var ar = [], i = 0; i < arguments.length; i++) {
+	            ar = ar.concat(__read(arguments[i]));
+	        }return ar;
+	    };
+
+	    __asyncGenerator = function __asyncGenerator(thisArg, _arguments, generator) {
+	        if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+	        var g = generator.apply(thisArg, _arguments || []),
+	            q = [],
+	            c,
+	            i;
+	        return i = { next: verb("next"), "throw": verb("throw"), "return": verb("return") }, i[Symbol.asyncIterator] = function () {
+	            return this;
+	        }, i;
+	        function verb(n) {
+	            return function (v) {
+	                return new Promise(function (a, b) {
+	                    q.push([n, v, a, b]), next();
+	                });
+	            };
+	        }
+	        function next() {
+	            if (!c && q.length) resume((c = q.shift())[0], c[1]);
+	        }
+	        function resume(n, v) {
+	            try {
+	                step(g[n](v));
+	            } catch (e) {
+	                settle(c[3], e);
+	            }
+	        }
+	        function step(r) {
+	            r.done ? settle(c[2], r) : r.value[0] === "yield" ? settle(c[2], { value: r.value[1], done: false }) : Promise.resolve(r.value[1]).then(r.value[0] === "delegate" ? delegate : fulfill, reject);
+	        }
+	        function delegate(r) {
+	            step(r.done ? r : { value: ["yield", r.value], done: false });
+	        }
+	        function fulfill(value) {
+	            resume("next", value);
+	        }
+	        function reject(value) {
+	            resume("throw", value);
+	        }
+	        function settle(f, v) {
+	            c = void 0, f(v), next();
+	        }
+	    };
+
+	    __asyncDelegator = function __asyncDelegator(o) {
+	        var i = { next: verb("next"), "throw": verb("throw", function (e) {
+	                throw e;
+	            }), "return": verb("return", function (v) {
+	                return { value: v, done: true };
+	            }) };
+	        return o = __asyncValues(o), i[Symbol.iterator] = function () {
+	            return this;
+	        }, i;
+	        function verb(n, f) {
+	            return function (v) {
+	                return { value: ["delegate", (o[n] || f).call(o, v)], done: false };
+	            };
+	        }
+	    };
+
+	    __asyncValues = function __asyncValues(o) {
+	        if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
+	        var m = o[Symbol.asyncIterator];
+	        return m ? m.call(o) : typeof __values === "function" ? __values(o) : o[Symbol.iterator]();
+	    };
+
 	    exporter("__extends", __extends);
 	    exporter("__assign", __assign);
 	    exporter("__rest", __rest);
@@ -357,6 +483,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    exporter("__metadata", __metadata);
 	    exporter("__awaiter", __awaiter);
 	    exporter("__generator", __generator);
+	    exporter("__exportStar", __exportStar);
+	    exporter("__values", __values);
+	    exporter("__read", __read);
+	    exporter("__spread", __spread);
+	    exporter("__asyncGenerator", __asyncGenerator);
+	    exporter("__asyncDelegator", __asyncDelegator);
+	    exporter("__asyncValues", __asyncValues);
 	});
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
@@ -398,6 +531,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+	Object.defineProperty(exports, "__esModule", { value: true });
 	var React = __webpack_require__(3);
 	var slick_1 = __webpack_require__(2);
 
@@ -429,7 +563,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var name = this.props.name;
 	            var factory = this.context.container.get(name);
 	            factory.create({
-	                el: this.mount
+	                el: this.mount,
+	                options: this.props.options
 	            }).then(function (mod) {
 	                _this2.controller = mod;
 	                _this2.renderer = factory.container.get(slick_1.MetaKeys.renderer);
@@ -437,7 +572,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	    }, {
 	        key: "componentWillUnmount",
-	        value: function componentWillUnmount() {}
+	        value: function componentWillUnmount() {
+	            if (slick_1.isDroppable(this.controller)) {
+	                this.controller.drop();
+	            }
+	            this.controller = null;
+	        }
 	    }, {
 	        key: "render",
 	        value: function render() {
