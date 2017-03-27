@@ -1,4 +1,4 @@
-import { Renderer, MetaKeys, inject, Model, Container } from 'slick';
+import { Renderer, MetaKeys, inject, Model, Container, isDroppable } from 'slick';
 import { createElement, Component, PropTypes } from 'react';
 import { EventEmitter } from 'eventsjs';
 import * as ReactDom from 'react-dom';
@@ -6,7 +6,13 @@ export { Component, createElement } from 'react';
 export { Controller } from './controller'
 
 
-class Render extends Component<any, any> {
+interface RenderProps {
+    mod: any;
+    container: Container;
+    options: any;
+}
+
+class Render extends Component<RenderProps, any> {
     model: any;
     count: number;
     constructor(props, context) {
@@ -38,6 +44,12 @@ class Render extends Component<any, any> {
         if (this.model) this.model.off('change', this._onChange, this);
     }
 
+    drop () {
+        if (isDroppable(this.props.mod)) {
+            this.props.mod.drop();
+        } 
+    }
+
     static childContextTypes = {
         container: PropTypes.instanceOf(Container)
     }
@@ -47,6 +59,7 @@ class Render extends Component<any, any> {
 @inject(MetaKeys.element)
 export class ReactRenderer extends EventEmitter implements Renderer {
     model: Model
+    private component: Render;
     constructor(public el: Element) {
         super();
     }
@@ -69,7 +82,7 @@ export class ReactRenderer extends EventEmitter implements Renderer {
         }
 
 
-        ReactDom.render(createElement(Render, { container: container, mod: mod, options: options }), this.el)
+        this.component = ReactDom.render(createElement(Render, { container: container, mod: mod, options: options }), this.el)
     }
 
     private _renderTemplate(mod: any) {
@@ -84,6 +97,9 @@ export class ReactRenderer extends EventEmitter implements Renderer {
     drop() {
         this.destroy();
         ReactDom.unmountComponentAtNode(this.el);
+        if (this.component) {
+            this.component.drop();
+        }
     }
 
 }

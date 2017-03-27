@@ -114,6 +114,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value: function componentWilUnmount() {
 	            if (this.model) this.model.off('change', this._onChange, this);
 	        }
+	    }, {
+	        key: "drop",
+	        value: function drop() {
+	            if (slick_1.isDroppable(this.props.mod)) {
+	                this.props.mod.drop();
+	            }
+	        }
 	    }]);
 
 	    return Render;
@@ -147,7 +154,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            if (typeof mod.render !== 'function') {
 	                throw new TypeError('the controller needs a render method');
 	            }
-	            ReactDom.render(react_1.createElement(Render, { container: container, mod: mod, options: options }), this.el);
+	            this.component = ReactDom.render(react_1.createElement(Render, { container: container, mod: mod, options: options }), this.el);
 	        }
 	    }, {
 	        key: "_renderTemplate",
@@ -164,6 +171,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value: function drop() {
 	            this.destroy();
 	            ReactDom.unmountComponentAtNode(this.el);
+	            if (this.component) {
+	                this.component.drop();
+	            }
 	        }
 	    }]);
 

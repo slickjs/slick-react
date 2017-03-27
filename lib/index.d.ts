@@ -5,6 +5,7 @@ export { Controller } from './controller';
 export declare class ReactRenderer extends EventEmitter implements Renderer {
     el: Element;
     model: Model;
+    private component;
     constructor(el: Element);
     render(mod: any, container: Container, options?: any): void;
     private _renderTemplate(mod);
