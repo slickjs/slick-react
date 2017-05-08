@@ -75,9 +75,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.createElement = react_2.createElement;
 	var controller_1 = __webpack_require__(6);
 	exports.Controller = controller_1.Controller;
-	function isFunction(a) {
-	    return typeof a === 'function';
-	}
+	var utils_1 = __webpack_require__(7);
 
 	var ControllerRenderer = function (_react_1$Component) {
 	    _inherits(ControllerRenderer, _react_1$Component);
@@ -115,7 +113,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            if (this.model) {
 	                this.model.on('change', this._onChange, this);
 	            }
-	            if (this.props.mod && isFunction(this.props.mod.componentWillMount)) {
+	            if (this.props.mod && utils_1.isFunction(this.props.mod.componentWillMount)) {
 	                this.props.mod.componentWillMount();
 	            }
 	        }
@@ -123,7 +121,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        key: "componentWillUnmount",
 	        value: function componentWillUnmount() {
 	            if (this.model) this.model.off('change', this._onChange, this);
-	            if (this.props.mod && isFunction(this.props.mod.componentWillUnmount)) {
+	            if (this.props.mod && utils_1.isFunction(this.props.mod.componentWillUnmount)) {
 	                this.props.mod.componentWillUnmount();
 	            }
 	        }
@@ -555,6 +553,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	Object.defineProperty(exports, "__esModule", { value: true });
 	var React = __webpack_require__(3);
 	var slick_1 = __webpack_require__(2);
+	var utils_1 = __webpack_require__(7);
 
 	var Controller = function (_React$Component) {
 	    _inherits(Controller, _React$Component);
@@ -588,16 +587,39 @@ return /******/ (function(modules) { // webpackBootstrap
 	                options: this.props.options
 	            }).then(function (mod) {
 	                _this2.controller = mod;
-	                _this2.renderer = factory.container.get(slick_1.MetaKeys.renderer);
+	                //this.renderer = factory.container.get(MetaKeys.renderer);
 	            });
 	        }
 	    }, {
 	        key: "componentWillUnmount",
 	        value: function componentWillUnmount() {
+	            this._call('componentWillUnmount');
 	            if (slick_1.isDroppable(this.controller)) {
 	                this.controller.drop();
 	            }
 	            this.controller = null;
+	        }
+	    }, {
+	        key: "componentWillMount",
+	        value: function componentWillMount() {
+	            this._call('componentWillMount');
+	        }
+	    }, {
+	        key: "componentDidMount",
+	        value: function componentDidMount() {
+	            this._call('componentDidMount');
+	        }
+	    }, {
+	        key: "componentDidUpdate",
+	        value: function componentDidUpdate() {
+	            this._call('componentDidUpdate');
+	        }
+	    }, {
+	        key: "_call",
+	        value: function _call(fn) {
+	            if (this.controller && utils_1.isFunction(this.controller[fn])) {
+	                this.controller[fn].call(this.controller);
+	            }
 	        }
 	    }, {
 	        key: "render",
@@ -615,6 +637,18 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	Controller.contextTypes = { container: React.PropTypes.instanceOf(slick_1.Container) };
 	exports.Controller = Controller;
+
+/***/ },
+/* 7 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", { value: true });
+	function isFunction(a) {
+	    return typeof a === 'function';
+	}
+	exports.isFunction = isFunction;
 
 /***/ }
 /******/ ])

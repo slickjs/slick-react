@@ -3,11 +3,8 @@ import { createElement, Component, PropTypes } from 'react';
 import { EventEmitter } from 'eventsjs';
 import * as ReactDom from 'react-dom';
 export { Component, createElement } from 'react';
-export { Controller } from './controller'
-
-function isFunction(a: any): a is Function {
-    return typeof a === 'function';
-}
+export { Controller } from './controller';
+import {isFunction} from './utils';
 
 interface RenderProps {
     mod: any;

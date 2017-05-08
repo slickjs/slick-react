@@ -1,5 +1,6 @@
 import * as React from 'react';
-import {Container, Renderer, MetaKeys, isDroppable} from 'slick'
+import {Container, isDroppable, Factory} from 'slick'
+import {isFunction} from './utils';
 
 export interface ControllerProperties {
     name:string;
@@ -8,8 +9,9 @@ export interface ControllerProperties {
 
 export class Controller extends React.Component<ControllerProperties,any> {
     mount:  Element
-    renderer: Renderer;
+    //renderer: Renderer;
     controller: any;
+    context:{container:Container}
     constructor(props, context) {
         super(props, context)
         if (!this.props.name) {
@@ -26,22 +28,41 @@ export class Controller extends React.Component<ControllerProperties,any> {
         this.mount = el
 
         let name = this.props.name;
-        let factory = this.context.container.get(name)
+        let factory = this.context.container.get<Factory<any>>(name)
         
         factory.create({
             el: this.mount,
             options: this.props.options
         }).then( mod => {
             this.controller = mod;
-            this.renderer = factory.container.get(MetaKeys.renderer);
+            //this.renderer = factory.container.get(MetaKeys.renderer);
         })
     }
 
     componentWillUnmount() {
+        this._call('componentWillUnmount');
         if (isDroppable(this.controller)) {
             this.controller.drop();
         }
         this.controller = null;
+    }
+
+    componentWillMount() {
+        this._call('componentWillMount');
+    }
+
+    componentDidMount() {
+        this._call('componentDidMount');
+    }
+
+    componentDidUpdate() {
+        this._call('componentDidUpdate');
+    }
+
+    private _call(fn:string) {
+        if (this.controller && isFunction(this.controller[fn])) {
+            this.controller[fn].call(this.controller);
+        }
     }
 
     render() {
